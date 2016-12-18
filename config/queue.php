@@ -15,7 +15,7 @@ return [
 	|
 	*/
 
-	'default' => env('QUEUE_DRIVER', 'sync'),
+	'default' => env('QUEUE_DRIVER', 'sqs'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -43,12 +43,14 @@ return [
 
 		'sqs' => [
 			'driver' => 'sqs',
-			'key'    => 'your-public-key',
-			'secret' => 'your-secret-key',
-			'queue'  => 'your-queue-url',
-			'region' => 'us-east-1',
+			'key'    => 'AKIAJ3TWHTR2F3GZDOOA',
+			'secret' => 'QlqT3Z2g5mt5UxLNwQCvrpMVxAQ9C/0RtL1ATR7f',
+			'queue'  => 'https://sqs.ap-northeast-1.amazonaws.com/859263760906/laravel-5-sendmail-queue',
+			'http'    => [
+				'verify' => storage_path().'/cacert.pem'
+			],
+			'region' => 'ap-northeast-1',
 		],
-
 		'iron' => [
 			'driver'  => 'iron',
 			'host'    => 'mq-aws-us-east-1.iron.io',

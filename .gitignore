@@ -1,0 +1,9 @@
+.metadata/*
+database/migrations/*.*
+vendor/*
+public/filemanager/*
+*.txt
+database/*
+.buildpath
+.project
+.settings/*

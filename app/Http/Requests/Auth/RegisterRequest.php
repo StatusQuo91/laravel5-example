@@ -13,7 +13,7 @@ class RegisterRequest extends Request {
 	{
 		return [
 			'username' => 'required|max:30|alpha|unique:users',
-			'email' => 'required|email|max:255|unique:users',
+			'email' => 'required|email|max:255',
 			'password' => 'required|min:8|confirmed',
 		];
 	}

@@ -5,7 +5,7 @@
     <div class="row">
 
         <div class="col-lg-12">
-            {!! Form::open(['url' => 'blog/search', 'method' => 'get', 'role' => 'form', 'class' => 'pull-right']) !!}  
+            {!! Form::open(['url' => 'blog/search', 'method' => 'get', 'role' => 'form', 'class' => 'pull-right']) !!}
                 {!! Form::control('text', 12, 'search', $errors, null, null, null, trans('front/blog.search')) !!}
             {!! Form::close() !!}
         </div>
@@ -19,7 +19,7 @@
                 <div class="col-lg-12 text-center">
                     <h2>{{ $post->title }}
                     <br>
-                    <small>{{ $post->user->username }} {{ trans('front/blog.on') }} {!! $post->created_at . ($post->created_at != $post->updated_at ? trans('front/blog.updated') . $post->updated_at : '') !!}</small>
+                    <small></small>
                     </h2>
                 </div>
                 <div class="col-lg-12">
@@ -31,7 +31,7 @@
                 </div>
             </div>
         @endforeach
-     
+
         <div class="col-lg-12 text-center">
             {!! $links !!}
         </div>
@@ -39,4 +39,3 @@
     </div>
 
 @stop
-

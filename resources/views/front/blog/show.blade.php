@@ -13,7 +13,7 @@
 				<hr>
 				<h2 class="text-center">{{ $post->title }}
 				<br>
-				<small>{{ $post->user->username }} {{ trans('front/blog.on') }} {!! $post->created_at . ($post->created_at != $post->updated_at ? trans('front/blog.updated') . $post->updated_at : '') !!}</small>
+				<small></small>
 				</h2>
 				<hr>
 				{!! $post->summary !!}<br>
@@ -22,7 +22,7 @@
 				@if($post->tags->count())
 					<div class="text-center">
 						@if($post->tags->count() > 0)
-							<small>{{ trans('front/blog.tags') }}</small> 
+							<small>{{ trans('front/blog.tags') }}</small>
 							@foreach($post->tags as $tag)
 								{!! link_to('blog/tag?tag=' . $tag->id, $tag->tag, ['class' => 'btn btn-default btn-xs']) !!}
 							@endforeach
@@ -46,7 +46,7 @@
 							<div class="commentitem">
 								<h3>
 									<small>{{ $comment->user->username . ' ' . trans('front/blog.on') . ' ' . $comment->created_at }}</small>
-									@if($user && $user->username == $comment->user->username) 
+									@if($user && $user->username == $comment->user->username)
 										<a id="deletecomment{!! $comment->id !!}" href="#" class="deletecomment"><span class="fa fa-fw fa-trash pull-right" data-toggle="tooltip" data-placement="left" title="{{ trans('front/blog.delete') }}"></span></a>
 										<a id="comment{!! $comment->id !!}" href="#" class="editcomment"><span class="fa fa-fw fa-pencil pull-right" data-toggle="tooltip" data-placement="left" title="{{ trans('front/blog.edit') }}"></span></a>
 									@endif
@@ -55,14 +55,14 @@
 								<hr>
 							</div>
 						@endforeach
-					@endif	
+					@endif
 
-					<div class="row" id="formcreate"> 
+					<div class="row" id="formcreate">
 						@if(session()->has('warning'))
 							@include('partials/error', ['type' => 'warning', 'message' => session('warning')])
-						@endif	
+						@endif
 						@if(session('statut') != 'visitor')
-							{!! Form::open(['url' => 'comment']) !!}	
+							{!! Form::open(['url' => 'comment']) !!}
 								{!! Form::hidden('post_id', $post->id) !!}
 								{!! Form::control('textarea', 12, 'comments', $errors, trans('front/blog.comment')) !!}
 								{!! Form::submit(trans('front/form.send'), ['col-lg-12']) !!}
@@ -89,7 +89,7 @@
 		{!! HTML::script('ckeditor/ckeditor.js') !!}
 	@endif
 
-	<script>	  
+	<script>
 
 		@if(session('statut') != 'visitor')
 
@@ -97,7 +97,7 @@
 				language: '{{ config('app.locale') }}',
 				height: 200,
 				toolbarGroups: [
-					{ name: 'basicstyles', groups: [ 'basicstyles'] }, 
+					{ name: 'basicstyles', groups: [ 'basicstyles'] },
 					{ name: 'links' },
 					{ name: 'insert' }
 				],
@@ -114,7 +114,7 @@
 				$('a.deletecomment span').tooltip();
 
 				// Set comment edition
-				$('a.editcomment').click(function(e) {   
+				$('a.editcomment').click(function(e) {
 					e.preventDefault();
 					$(this).hide();
 					var i = $(this).attr('id').substring(7);
@@ -127,7 +127,7 @@
 						language: '{{ config('app.locale') }}',
 						height: 200,
 						toolbarGroups: [
-							{ name: 'basicstyles', groups: [ 'basicstyles'] }, 
+							{ name: 'basicstyles', groups: [ 'basicstyles'] },
 							{ name: 'links' },
 							{ name: 'insert' }
 						],
@@ -136,14 +136,14 @@
 				});
 
 				// Escape edition
-				$(document).on('click', '.btnannuler', function() {    
+				$(document).on('click', '.btnannuler', function() {
 					var i = $(this).attr('id').substring(3);
 					$('#comment' + i).show();
 					$('#contenu' + i).html(jQuery.data(document.body, 'comment' + i));
 				});
 
-				// Validation 
-				$(document).on('submit', '.formajax', function(e) {  
+				// Validation
+				$(document).on('submit', '.formajax', function(e) {
 					e.preventDefault();
 					var i = $(this).attr('id').substring(4);
 					$('#val' + i).parent().html('<i class="fa fa-refresh fa-spin fa-2x"></i>').addClass('text-center');
@@ -154,7 +154,7 @@
 					})
 					.done(function(data) {
 						$('#comment' + data.id).show();
-						$('#contenu' + data.id).html(data.content);	
+						$('#contenu' + data.id).html(data.content);
 					})
 					.fail(function(data) {
 						var errors = data.responseJSON;
@@ -167,9 +167,9 @@
 				});
 
 				// Delete comment
-				$('a.deletecomment').click(function(e) {   
-					e.preventDefault();		
-					if (!confirm('{{ trans('front/blog.confirm') }}')) return;	
+				$('a.deletecomment').click(function(e) {
+					e.preventDefault();
+					if (!confirm('{{ trans('front/blog.confirm') }}')) return;
 					var i = $(this).attr('id').substring(13);
 					var token = $('input[name="_token"]').val();
 					$(this).replaceWith('<i class="fa fa-refresh fa-spin pull-right"></i>');
@@ -183,7 +183,7 @@
 					})
 					.fail(function() {
 						alert('{{ trans('front/blog.fail-delete') }}');
-					});					
+					});
 				});
 
 			});

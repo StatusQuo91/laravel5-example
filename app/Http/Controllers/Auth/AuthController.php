@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Repositories\UserRepository;
-use App\Jobs\SendMail;
+use App\Jobs\SendRegisterEmail;
 
 class AuthController extends Controller
 {
@@ -40,7 +40,7 @@ class AuthController extends Controller
 		Guard $auth)
 	{
 		$logValue = $request->input('log');
-
+		xdebug_break();
 		$logAccess = filter_var($logValue, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         $throttles = in_array(
@@ -54,7 +54,7 @@ class AuthController extends Controller
         }
 
 		$credentials = [
-			$logAccess  => $logValue, 
+			$logAccess  => $logValue,
 			'password'  => $request->input('password')
 		];
 
@@ -67,7 +67,7 @@ class AuthController extends Controller
 				->with('error', trans('front/login.credentials'))
 				->withInput($request->only('log'));
 		}
-			
+
 		$user = $auth->getLastAttempted();
 
 		if($user->confirmed) {
@@ -83,10 +83,10 @@ class AuthController extends Controller
 
 			return redirect('/');
 		}
-		
-		$request->session()->put('user_id', $user->id);	
 
-		return redirect('/auth/login')->with('error', trans('front/verify.again'));			
+		$request->session()->put('user_id', $user->id);
+
+		return redirect('/auth/login')->with('error', trans('front/verify.again'));
 	}
 
 
@@ -102,11 +102,11 @@ class AuthController extends Controller
 		UserRepository $user_gestion)
 	{
 		$user = $user_gestion->store(
-			$request->all(), 
+			$request->all(),
 			$confirmation_code = str_random(30)
 		);
-
-		$this->dispatch(new SendMail($user));
+		$job = (new SendRegisterEmail($user))->delay(30);
+		$this->dispatch($job);
 
 		return redirect('/')->with('ok', trans('front/verify.message'));
 	}
@@ -141,12 +141,12 @@ class AuthController extends Controller
 		if($request->session()->has('user_id'))	{
 			$user = $user_gestion->getById($request->session()->get('user_id'));
 
-			$this->dispatch(new SendMail($user));
+			$this->dispatch(new SendRegisterEmail($user));
 
 			return redirect('/')->with('ok', trans('front/verify.resend'));
 		}
 
-		return redirect('/');        
+		return redirect('/');
 	}
-	
+
 }
