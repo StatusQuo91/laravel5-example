@@ -73,9 +73,12 @@ class CommentRepository extends BaseRepository {
 	 */
 	public function update($seen, $id)
 	{
+// 		if (true == true){
+			
+// 		};
 		$comment = $this->getById($id);
 
-		$comment->seen = $seen == 'true';
+// 		$comment->seen = $seen == 'true';
 
 		$comment->save();
 	}
