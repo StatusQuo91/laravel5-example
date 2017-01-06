@@ -15,7 +15,7 @@ return [
 	|
 	*/
 
-	'default' => env('QUEUE_DRIVER', 'sqs'),
+	'default' => env('QUEUE_DRIVER', 'database'),
 
 	/*
 	|--------------------------------------------------------------------------
@@ -33,6 +33,12 @@ return [
 		'sync' => [
 			'driver' => 'sync',
 		],
+		'database' => [
+        'driver' => 'database',
+        'table' => 'jobs',
+        'queue' => 'phantom',
+        'expire' => 60,
+   		 ],
 
 		'beanstalkd' => [
 			'driver' => 'beanstalkd',

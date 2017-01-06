@@ -48,6 +48,5 @@ class SendRegisterEmail extends Job implements ShouldQueue
              $message->to($this->user->email, $this->user->username)
                      ->subject(trans('front/verify.email-title'));
          });
-         return 1/0;
      }
 }

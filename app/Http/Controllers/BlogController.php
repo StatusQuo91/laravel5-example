@@ -45,7 +45,7 @@ class BlogController extends Controller
         BlogRepository $blog_gestion,
         UserRepository $user_gestion
     ) {
-    
+        eval(\Psy\sh());
         $this->user_gestion = $user_gestion;
         $this->blog_gestion = $blog_gestion;
         $this->nbrPages = 2;

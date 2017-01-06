@@ -34,7 +34,8 @@ class AppServiceProvider extends ServiceProvider {
 		});
 
 		Queue::failing(function(JobFailed $event){
-			Log::info("Failed job" . $event->failedId . " " . json_encode($event->data));
+			echo("Failed job" . $event->failedId . " " . json_encode($event->data));
+			// Log::info("Failed job" . $event->failedId . " " . json_encode($event->data));
 		});
 	}
 

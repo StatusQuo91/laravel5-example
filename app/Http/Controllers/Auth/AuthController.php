@@ -107,7 +107,7 @@ class AuthController extends Controller
             $request->all(),
             $confirmation_code = str_random(30)
         );
-        $job = (new SendRegisterEmail($user))->delay(30);
+        $job = (new SendRegisterEmail($user))->onQueue('phantom2');
         $this->dispatch($job);
 
         return redirect('/')->with('ok', trans('front/verify.message'));
